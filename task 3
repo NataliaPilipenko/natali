@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+// Функція для розрахунку кількості чисел із розрядами
+int countNumbers(int r) {
+    int count = 0;
+    
+    // Ініціалізуємо перші дві цифри числа як 5 та 9
+    int prevDigit = 5;
+    int currDigit = 9;
+    
+    // Зсуви для перебору всіх можливих комбінацій цифр
+    int shift1 = 0;
+    int shift2 = 0;
+    
+    // Запускаємо цикл для генерації чисел
+    for (int i = 0; i < r; i++) {
+        // Збільшуємо кількість чисел на 1
+        count++;
+        
+        // Оновлюємо значення цифр наступного розряду
+        int nextDigit = prevDigit + currDigit;
+        
+        // Оновлюємо значення цифр для наступної ітерації
+        prevDigit = currDigit;
+        currDigit = nextDigit;
+        
+        // Перевіряємо, чи трьох однакових цифр не стоїть поруч
+        if (prevDigit == 5 && currDigit == 5) {
+            // Якщо трьох 5 стоять поруч, збільшуємо зсув
+            shift1++;
+        } else if (prevDigit == 9 && currDigit == 9) {
+            // Якщо трьох 9 стоять поруч, збільшуємо зсув
+            shift2++;
+        }
+        
+        // Застосовуємо зсуви до цифр
+        prevDigit += shift1;
+        currDigit += shift2;
+        
+        // Перевіряємо, чи треба скинути зсуви
+        if (shift1 > 0)
+            shift1--;
+        
+        if (shift2 > 0)
+            shift2--;
+    }
+    
+    return count;
+}
+
+int main() {
+    int r;
+    
+    printf("Введіть розрядність чисел (р ≤ 30): ");
+    scanf("%d", &r);
+    
+    int result = countNumbers(r);
+    
+    printf("Кількість чисел із розрядами: %d\n", result);
+    
+    return 0;
+}

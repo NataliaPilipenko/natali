@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int countSequences(int n) {
+    int mod = 12345;
+    
+    // Ініціалізуємо дві змінні, які відповідатимуть за кількість послідовностей
+    int countWithLastZero = 1;  // Кількість послідовностей, останнім елементом яких є 0
+    int countWithLastOne = 1;   // Кількість послідовностей, останнім елементом яких є 1
+    
+    // Проходимо по всім елементам послідовності
+    for (int i = 2; i <= n; i++) {
+        // Оновлюємо кількість послідовностей з останнім елементом 0
+        int newCountWithLastZero = (countWithLastZero + countWithLastOne) % mod;
+        
+        // Оновлюємо кількість послідовностей з останнім елементом 1
+        int newCountWithLastOne = countWithLastZero;
+        
+        // Оновлюємо значення змінних для наступної ітерації
+        countWithLastZero = newCountWithLastZero;
+        countWithLastOne = newCountWithLastOne;
+    }
+    
+    // Повертаємо кількість послідовностей, додатково обмежуючи результат модулем
+    return (countWithLastZero + countWithLastOne) % mod;
+}
+
+int main() {
+    int n;
+    printf("Введіть довжину послідовності n: ");
+    scanf("%d", &n);
+    
+    // Викликаємо функцію для обчислення кількості послідовностей
+    int result = countSequences(n);
+    
+    // Виводимо результат
+    printf("Кількість шуканих послідовностей: %d\n", result);
+    
+    return 0;
+}
